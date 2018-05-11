@@ -15,7 +15,7 @@ class CreateUsersTable extends Migration
     {
         Schema::create('bpm_users', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('email', 25);
+            $table->string('email', 25)->unique();
             $table->string('password', 255);
             $table->string('name', 25);
             $table->boolean('is_active')->default(true);

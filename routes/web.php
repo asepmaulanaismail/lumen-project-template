@@ -14,7 +14,19 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
-
 $router->get('/key', function() {
     return str_random(32);
 });
+
+// Without param id
+$router->get('/user','UserController@index');
+$router->get('/user/combo','UserController@combo'); // API Example to getting data for combobox
+$router->post('/user','UserController@save');
+
+// With param id
+$router->get('/user/{id}','UserController@show');
+$router->put('/user/{id}','UserController@update');
+$router->put('/user/block/{id}','UserController@block');
+$router->put('/user/unblock/{id}','UserController@unblock');
+$router->put('/user/change-password/{id}','UserController@changePassword');
+$router->delete('/user/{id}','UserController@destroy');

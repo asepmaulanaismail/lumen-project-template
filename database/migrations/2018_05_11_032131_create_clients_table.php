@@ -15,7 +15,7 @@ class CreateClientsTable extends Migration
     {
         Schema::create('bpm_clients', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('email', 25);
+            $table->string('email', 25)->unique();
             $table->string('password', 255);
             $table->string('name', 25);
             // $column, $autoincrement, $unsigned
