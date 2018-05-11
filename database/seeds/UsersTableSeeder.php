@@ -16,7 +16,7 @@ class UsersTableSeeder extends Seeder
             'email' => 'admin@bpm.com',
             'password' => sha1('bsp123!!'),
             'name' => "Administrator",
-            'isAdmin' => true
+            'is_admin' => true
         ]);
     }
 }

@@ -18,8 +18,8 @@ class CreateUsersTable extends Migration
             $table->string('email', 25);
             $table->string('password', 255);
             $table->string('name', 25);
-            $table->boolean('isActive')->default(true);
-            $table->boolean('isAdmin')->default(false);
+            $table->boolean('is_active')->default(true);
+            $table->boolean('is_admin')->default(false);
             $table->integer("created_by")->default(1);
             $table->dateTime('created_dt')->default(date('Y-m-d H:i:s'));
             $table->integer("updated_by")->default(1);
