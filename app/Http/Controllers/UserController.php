@@ -27,7 +27,6 @@ class UserController extends Controller
             $response->status = true;
             $response->messages = [];
             $response->data = $data;
-            return response()->json($data);
         }else{
             $response->status = false;
             $response->messages = ["User with ID '".$id."' is not found"];
@@ -188,9 +187,7 @@ class UserController extends Controller
                     $response->messages = ["Current password is didn't match."];
                 }else{
                     try {
-                        $data->email = $request->input("email");
-                        $data->name = $request->input("name");
-                        $data->is_admin = $request->input("is_admin");
+                        $data->password = $request->input("new_password");
                         $data->updated_dt = date('Y-m-d H:i:s');
                         $data->updated_by = $request->input("user_id");
                         $data->save();
