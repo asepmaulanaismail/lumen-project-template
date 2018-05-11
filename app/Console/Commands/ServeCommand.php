@@ -24,12 +24,11 @@ class ServeCommand extends Command {
      */
     public function handle()
     {
-        chdir(base_path('public'));
         $host = $this->input->getOption('host');
         $port = $this->input->getOption('port');
         $base = $this->laravel->basePath();
         $this->info("Lumen development server started on http://{$host}:{$port}/");
-        passthru('"'.PHP_BINARY.'"'." -S {$host}:{$port} \"{$base}\"/server.php");
+        passthru('"'.PHP_BINARY.'"'." -S {$host}:{$port} -t public");
     }
     /**
      * Get the console command options.
@@ -39,8 +38,8 @@ class ServeCommand extends Command {
     protected function getOptions()
     {
         return array(
-            array('host', null, InputOption::VALUE_OPTIONAL, 'The host address to serve the application on.', env("APP_HOST", "localhost")),
-            array('port', null, InputOption::VALUE_OPTIONAL, 'The port to serve the application on.', env("APP_PORT", 8000)),
+            array('host', null, InputOption::VALUE_OPTIONAL, 'The host address to serve the application on.', "localhost"),
+            array('port', null, InputOption::VALUE_OPTIONAL, 'The port to serve the application on.', 8000),
         );
     }
 }
