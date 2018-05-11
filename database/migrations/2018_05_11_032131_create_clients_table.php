@@ -18,12 +18,15 @@ class CreateClientsTable extends Migration
             $table->string('email', 25);
             $table->string('password', 255);
             $table->string('name', 25);
-            $table->integer("parent_id");
+            $table->integer("parent_id", false, true)->unsigned();
             $table->boolean('isActive')->default(true);
             $table->integer("created_by")->default(1);
             $table->dateTime('created_dt')->default(date('Y-m-d H:i:s'));
             $table->integer("updated_by")->default(1);
             $table->dateTime('updated_dt')->default(date('Y-m-d H:i:s'));
+
+            $table->foreign("parent_id")
+                ->references('id')->on('bpm_users');
         });
     }
 
