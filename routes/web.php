@@ -40,4 +40,12 @@ $router->delete('/user/{id}','UserController@destroy');
 $router->get('/client','ClientController@index');
 $router->get('/client/combo','ClientController@combo');
 $router->post('/client','ClientController@save');
+
+// With param id
+$router->get('/client/{id}','ClientController@show');
+$router->put('/client/{id}','ClientController@update');
+$router->put('/client/block/{id}','ClientController@block');
+$router->put('/client/unblock/{id}','ClientController@unblock');
+$router->put('/client/change-password/{id}','ClientController@changePassword');
+$router->delete('/client/{id}','ClientController@destroy');
 // =========================================

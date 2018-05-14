@@ -17,7 +17,6 @@ class UserController extends Controller
             $query->where("email", "like", "%".$request->input('email')."%");
         }
         $response = $query->orderBy("name")->paginate(10);
-        $response->load("clients");
         return response()->json($response);
     }
     public function show($id){
@@ -27,6 +26,7 @@ class UserController extends Controller
         if ($data != null){
             $response->status = true;
             $response->messages = [];
+            $data->load("clients");
             $response->data = $data;
         }else{
             $response->status = false;

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Validator;
 use App\Model\Client;
+use App\Model\User;
 use Illuminate\Http\Request;
 
 class ClientController extends Controller
@@ -17,7 +18,6 @@ class ClientController extends Controller
             $query->where("email", "like", "%".$request->input('email')."%");
         }
         $response = $query->orderBy("name")->paginate(10);
-        $response->load("parent");
         return response()->json($response);
     }
     public function show($id){
@@ -27,6 +27,7 @@ class ClientController extends Controller
         if ($data != null){
             $response->status = true;
             $response->messages = [];
+            $data->load("parent");
             $response->data = $data;
         }else{
             $response->status = false;
@@ -40,7 +41,6 @@ class ClientController extends Controller
             'email' => 'required|email|string|max:25',
             'password' => 'required|string|min:8',
             'name' => 'required|string|max:25',
-            'is_admin' => 'required|boolean',
             'user_id' => 'required|integer'
         ], $this->validatorMessages);
 
@@ -48,23 +48,29 @@ class ClientController extends Controller
             $response->status = false;
             $response->messages = $this->generateMessageArray($validator->errors());
         }else{
-            try {
-                $data = new Client();
-                $data->email = $request->input("email");
-                $data->password = sha1($request->input("password"));
-                $data->name = $request->input("name");
-                $data->is_admin = $request->input("is_admin");
-                $data->created_dt = date('Y-m-d H:i:s');
-                $data->created_by = $request->input("user_id");
-                $data->updated_dt = date('Y-m-d H:i:s');
-                $data->updated_by = $request->input("user_id");
-                $data->save();
-    
-                $response->status = true;
-                $response->messages = [];
-            } catch (\Illuminate\Database\QueryException $e) {
+            $data = User::find($request->input("user_id"));
+            if ($data != null){
+                try {
+                    $data = new Client();
+                    $data->user_id = $request->input("user_id");
+                    $data->email = $request->input("email");
+                    $data->password = sha1($request->input("password"));
+                    $data->name = $request->input("name");
+                    $data->created_dt = date('Y-m-d H:i:s');
+                    $data->created_by = $request->input("user_id");
+                    $data->updated_dt = date('Y-m-d H:i:s');
+                    $data->updated_by = $request->input("user_id");
+                    $data->save();
+        
+                    $response->status = true;
+                    $response->messages = [];
+                } catch (\Illuminate\Database\QueryException $e) {
+                    $response->status = false;
+                    $response->messages = $e->errorInfo;
+                }
+            }else{
                 $response->status = false;
-                $response->messages = $e->errorInfo;
+                $response->messages = ["User with ID '".$request->input("user_id")."' is not found"];
             }
         }
 
@@ -75,7 +81,7 @@ class ClientController extends Controller
         $validator = Validator::make($request->all(), [
             'email' => 'required|email|string|max:25',
             'name' => 'required|string|max:25',
-            'is_admin' => 'required|boolean',
+            'is_active' => 'required|boolean',
             'user_id' => 'required|integer'
         ], $this->validatorMessages);
 
@@ -88,7 +94,7 @@ class ClientController extends Controller
                 try {
                     $data->email = $request->input("email");
                     $data->name = $request->input("name");
-                    $data->is_admin = $request->input("is_admin");
+                    $data->is_active = $request->input("is_active");
                     $data->updated_dt = date('Y-m-d H:i:s');
                     $data->updated_by = $request->input("user_id");
                     $data->save();
