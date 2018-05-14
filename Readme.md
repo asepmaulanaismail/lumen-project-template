@@ -161,7 +161,7 @@ Response    :
 ```
 Method      : PUT
 
-URL         : /user/block/{id}
+URL         : /user/unblock/{id}
 Response    : 
 {
     "status": true,
