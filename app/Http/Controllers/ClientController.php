@@ -157,6 +157,8 @@ class ClientController extends Controller
         if ($data != null){
             try {
                 $data->is_active = $is_active;
+                $data->updated_dt = date('Y-m-d H:i:s');
+                $data->updated_by = $request->input("user_id");
                 $data->save();
 
                 $response->status = true;
