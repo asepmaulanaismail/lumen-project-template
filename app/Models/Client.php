@@ -14,4 +14,12 @@ class Client extends Model
     protected $hidden = [
         'password', 'created_by', 'created_dt', 'updated_by', 'updated_dt'
     ];
+
+    /**
+     * Get the user of the client.
+     */
+    public function parent()
+    {
+        return $this->belongsTo('App\Model\User', 'user_id', 'id');
+    }
 }
