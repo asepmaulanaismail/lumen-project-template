@@ -18,6 +18,8 @@ $router->get('/key', function() {
     return str_random(32);
 });
 
+// =========================================
+// USER API
 // Without param id
 $router->get('/user','UserController@index');
 $router->get('/user/combo','UserController@combo'); // API Example to getting data for combobox
@@ -30,3 +32,12 @@ $router->put('/user/block/{id}','UserController@block');
 $router->put('/user/unblock/{id}','UserController@unblock');
 $router->put('/user/change-password/{id}','UserController@changePassword');
 $router->delete('/user/{id}','UserController@destroy');
+// =========================================
+
+// =========================================
+// Client API
+// Without param id
+$router->get('/client','ClientController@index');
+$router->get('/client/combo','ClientController@combo');
+$router->post('/client','ClientController@save');
+// =========================================
