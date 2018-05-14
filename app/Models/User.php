@@ -14,4 +14,12 @@ class User extends Model
     protected $hidden = [
         'password', 'created_by', 'created_dt', 'updated_by', 'updated_dt'
     ];
+
+    /**
+     * Get the clients of the user.
+     */
+    public function clients()
+    {
+        return $this->hasMany('App\Model\Client', 'user_id', 'id');
+    }
 }

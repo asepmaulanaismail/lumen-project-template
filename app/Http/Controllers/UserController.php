@@ -17,6 +17,7 @@ class UserController extends Controller
             $query->where("email", "like", "%".$request->input('email')."%");
         }
         $response = $query->orderBy("name")->paginate(10);
+        $response->load("clients");
         return response()->json($response);
     }
     public function show($id){
