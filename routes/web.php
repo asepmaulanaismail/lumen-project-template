@@ -24,6 +24,7 @@ $router->get('/key', function() {
 $router->get('/user','UserController@index');
 $router->get('/user/combo','UserController@combo'); // API Example to getting data for combobox
 $router->post('/user','UserController@save');
+$router->post('/user/auth','UserController@auth');
 
 // With param id
 $router->get('/user/{id}','UserController@show');
@@ -40,6 +41,7 @@ $router->delete('/user/{id}','UserController@destroy');
 $router->get('/client','ClientController@index');
 $router->get('/client/combo','ClientController@combo');
 $router->post('/client','ClientController@save');
+$router->post('/client/auth','ClientController@auth');
 
 // With param id
 $router->get('/client/{id}','ClientController@show');

@@ -213,4 +213,32 @@ class ClientController extends Controller
         }
         return response()->json($response);
     }
+    public function auth(Request $request){
+        $response = json_decode("{}");
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|string|max:25',
+            'password' => 'required|string|min:8'
+        ], $this->validatorMessages);
+
+        if ($validator->fails()) {
+            $response->status = false;
+            $response->messages = $this->generateMessageArray($validator->errors());
+        }else{
+            try {
+                $isExists = Client::where("email", $request->input("email"))
+                    ->where("password", sha1($request->input("password")))->count() == 1;
+                if ($isExists){
+                    $response->status = true;
+                    $response->messages = [];
+                }else{
+                    $response->status = false;
+                    $response->messages = ["Authentication failed."];
+                }
+            } catch (\Illuminate\Database\QueryException $e) {
+                $response->status = false;
+                $response->messages = $e->errorInfo;
+            }
+        }
+        return response()->json($response);
+    }
 }
