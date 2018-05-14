@@ -16,7 +16,7 @@ class ClientsTableSeeder extends Seeder
             'email' => 'client@bpm.com',
             'password' => sha1('bsp123!!'),
             'name' => "Client",
-            'parent_id' => 1
+            'user_id' => 1
         ]);
     }
 }
