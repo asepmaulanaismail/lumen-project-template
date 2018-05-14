@@ -143,22 +143,42 @@ class ClientController extends Controller
         $response->data = $data->orderBy("name")->get();
         return response()->json($response);
     }
-    public function block($id){
-        $response = $this->setIsActive($id, false);
+    public function block(Request $request, $id){
+        $response = json_decode("{}");
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required|integer'
+        ], $this->validatorMessages);
+
+        if ($validator->fails()) {
+            $response->status = false;
+            $response->messages = $this->generateMessageArray($validator->errors());
+        }else{
+            $response = $this->setIsActive($id, false, $request->input("user_id"));
+        }
         return response()->json($response);
     }
-    public function unblock($id){
-        $response = $this->setIsActive($id, true);
+    public function unblock(Request $request, $id){
+        $response = json_decode("{}");
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required|integer'
+        ], $this->validatorMessages);
+
+        if ($validator->fails()) {
+            $response->status = false;
+            $response->messages = $this->generateMessageArray($validator->errors());
+        }else{
+            $response = $this->setIsActive($id, true, $request->input("user_id"));
+        }
         return response()->json($response);
     }
-    private function setIsActive($id, $is_active){
+    private function setIsActive($id, $is_active, $user_id){
         $response = json_decode("{}");
         $data = Client::find($id);
         if ($data != null){
             try {
                 $data->is_active = $is_active;
                 $data->updated_dt = date('Y-m-d H:i:s');
-                $data->updated_by = $request->input("user_id");
+                $data->updated_by = $user_id;
                 $data->save();
 
                 $response->status = true;
